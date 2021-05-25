@@ -1,0 +1,4 @@
+(test
+ (name okasaki)
+ (preprocess
+  (pps ppx_inline_test)))

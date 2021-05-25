@@ -1,0 +1,6 @@
+(library
+ (public_name okasaki)
+ (inline_tests)
+ (name okasaki)
+ (preprocess
+  (pps ppx_inline_test)))
