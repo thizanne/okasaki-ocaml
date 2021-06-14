@@ -109,6 +109,45 @@ struct
         else member_with_candidate ~candidate:y x right
   end
 
+  module Using_root = struct
+
+    (* Another clean solution that, when searching a non-empty tree,
+       always starts with the root of the tree as a dummy
+       candidate. As long as this candidate will be updated at some
+       point during the traversal, this does not change anything to
+       the high-level behaviour of the function, as the root value
+       will never be used. Otherwise, upon reaching a leaf while still
+       having the original root candidate, this means the value is
+       actually absent -- but the code doesn't know it yet. Then the
+       root will be compared with the element we're looking for, as if
+       it were an actual potential candidate that turns out to be
+       invalid.
+
+       Put in another way, it avoids both code duplication and option
+       allocation by using a dummy value that we can access and has
+       the correct type. This is correct because candidate are
+       expected to be potentially invalid.
+
+       Compared to the GADT solution, we use one less immediate
+       parameter and pattern matching, and compute one more element
+       comparison when the element is absent. This solution has the
+       advantage of not needing advanced-ish type-level machinery (and
+       can thus for instance be implemented in simpler languages, like SML).
+    *)
+
+    let rec member' ~candidate x = function
+      | E -> Element.eq candidate x
+      | T (left, y, right) ->
+        if Element.lt x y
+        then member' ~candidate x left
+        else member' ~candidate:y x right
+
+    let _member x set = match set with
+      | E -> false
+      | T (_left, root, _right) ->
+        member' ~candidate:root x set
+  end
+
   (* And now for the actual nice solution: we're using a GADT to
      witness if we've found a candidate yet. The candidate itself is
      given unboxed -- if we found none yet, we just use any dummy
