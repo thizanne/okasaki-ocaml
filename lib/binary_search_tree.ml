@@ -10,17 +10,6 @@ module type Set = sig
   val to_string : t -> string
 end
 
-module type Ordered = sig
-  type t
-
-  val eq : t -> t -> bool
-  val lt : t -> t -> bool
-  val leq : t -> t -> bool
-
-  (* Not included in Okasaki, easier for experiments *)
-  val to_string : t -> string
-end
-
 module type Solutions = sig
 
   include Set
@@ -59,8 +48,7 @@ module type Solutions = sig
   end
 end
 
-
-module Unbalanced_set (Element : Ordered) : Solutions with type elem = Element.t =
+module Unbalanced_set (Element : Sig.Ordered) : Solutions with type elem = Element.t =
 struct
 
   type elem = Element.t
