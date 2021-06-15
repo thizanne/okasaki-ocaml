@@ -10,5 +10,9 @@ val head : 'a t -> 'a
 
 val tail : 'a t -> 'a t
 
-(** Exercice 2.1. O(n) time, O(n) space *)
-val suffixes : 'a t -> 'a t t
+module Exercise_2_1 : sig
+
+  (** O(n) time, O(n) space *)
+  val suffixes : 'a t -> 'a t t
+
+end

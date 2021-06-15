@@ -19,12 +19,12 @@ let tail = function
   | [] -> raise Empty
   | _ :: xs -> xs
 
-(* Exercice 2.1 *)
+module Exercise_2_1 = struct
+  let rec suffixes li = match li with
+    | [] -> [[]]
+    | _ :: xs ->
+      li :: suffixes xs
 
-let rec suffixes li = match li with
-  | [] -> [[]]
-  | _ :: xs ->
-    li :: suffixes xs
-
-let%test _ =
-  suffixes [1; 2; 3; 4] = [[1; 2; 3; 4]; [2; 3; 4]; [3; 4]; [4]; []]
+  let%test _ =
+    suffixes [1; 2; 3; 4] = [[1; 2; 3; 4]; [2; 3; 4]; [3; 4]; [4]; []]
+end
