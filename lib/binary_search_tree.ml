@@ -1,4 +1,4 @@
-module Unbalanced_set (Element : Sig.Ordered) :
+module Unbalanced_set (Element : Std.Ordered) :
   Binary_search_tree_intf.Solutions
   with type elem = Element.t =
 struct
@@ -280,22 +280,5 @@ struct
     Print_tree.to_string ~get_name ~get_children set
 end
 
-(* For easier testing *)
-module Int_elem = struct
-  type t = int
-  let lt = ( < )
-  let eq = ( = )
-  let leq = (<=)
-  let to_string = string_of_int
-end
-
-module String_elem = struct
-  type t = string
-  let lt = ( < )
-  let eq = ( = )
-  let leq = (<=)
-  let to_string x = x
-end
-
-module I = Unbalanced_set (Int_elem)
-module S = Unbalanced_set (String_elem)
+module I = Unbalanced_set (Std.Int_ordered)
+module S = Unbalanced_set (Std.String_ordered)
